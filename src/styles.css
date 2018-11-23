@@ -1,0 +1,67 @@
+.App {
+  font-family: sans-serif;
+  text-align: center;
+}
+
+.Header {
+  color: #1ed761;
+}
+
+.Input {
+  width: 60%;
+  height: 25px;
+  padding-left: 10px;
+  font-size: 16px;
+  box-shadow: 1px #888888;
+}
+
+.Results {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.ResultTitle {
+  margin-block-end: 0;
+}
+
+.ArtistContainer {
+  display: flex;
+  flex-direction: row;
+  background-color: #f0e7e7;
+  width: 400px;
+  height: 100px;
+  margin: 10px;
+  align-items: center;
+}
+
+.ArtistImage {
+  width: auto;
+  height: 100%;
+}
+
+.ArtistDetailsContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.ArtistName {
+  font-size: 20px;
+  font-weight: 800;
+  margin-block-start: 0;
+  margin-block-end: 0;
+}
+
+.ArtistPopularity {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-block-start: 0;
+  margin-block-end: 0;
+  padding-top: 10px;
+  color: #1ed761;
+}
