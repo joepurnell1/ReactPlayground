@@ -1,69 +1,81 @@
-import React, { Component } from "react";
-import searchArtist from "./spotifyService";
+import React, { useState, useEffect } from "react";
+import { searchArtist, getRandomAlbum } from "./spotifyService";
 import ReactDOM from "react-dom";
 import Artist from "./artist";
 
 import "./styles.css";
 
-class App extends Component {
-  constructor() {
-    super();
-    this.state = {
-      searchValue: "",
-      searchResults: []
-    };
+const renderSearchResults = (searchResults) => {
+  if (searchResults.length === 0) {
+    return [];
   }
 
-  onArtistSearch = event => {
-    event.persist();
-    this.setState({ searchValue: event.target.value });
-    searchArtist(event.target.value).then(response =>
-      this.setState({ searchResults: response })
-    );
-  };
-
-  renderSearchResults = () => {
-    if (this.state.searchResults.length === 0) {
-      return [];
-    }
-
-    if (typeof this.state.searchResults[0] === "string") {
-      return (
-        <div>
-          <p>{this.state.searchResults}</p>
-        </div>
-      );
-    }
-
+  if (typeof searchResults[0] === "string") {
     return (
-      <div className="Results">
-        <h3 className="ResultTitle">Results:</h3>
-        {this.state.searchResults.map(result => (
-          <Artist
-            key={result.id}
-            name={result.name}
-            imageSrc={result.images[0] ? result.images[0].url : undefined}
-            popularity={result.popularity}
-          />
-        ))}
+      <div>
+        <p>{searchResults}</p>
       </div>
     );
-  };
+  }
 
-  render() {
-    return (
-      <div className="App">
-        <h1 className="Header">Search an Artist</h1>
-        <input
-          className="Input"
-          type="text"
-          onChange={this.onArtistSearch}
-          placeholder="Enter an Artist"
+  return (
+    <div className="Results">
+      <h3 className="ResultTitle">Results:</h3>
+      {searchResults.map(result => (
+        <Artist
+          key={result.id}
+          name={result.name}
+          imageSrc={result.images[0] ? result.images[0].url : undefined}
+          popularity={result.popularity}
         />
-        {this.renderSearchResults()}
-      </div>
+      ))}
+    </div>
+  );
+};
+
+function App() {
+  const [searchValue, setSearchValue] = useState('');
+  const [searchResults, setSearchResults] = useState([]);
+  const [randomAlbumArt, setRandomAlbumArt] = useState(undefined);
+
+  useEffect(() => {
+    const fetchRandomAlbum = async () => {
+      const randAlbum = await getRandomAlbum();
+      setRandomAlbumArt(randAlbum);
+    };
+    fetchRandomAlbum();
+  }, []);
+
+  const onArtistSearch = event => {
+    event.persist();
+    setSearchValue(event.target.value);
+    searchArtist(event.target.value).then((response) =>
+      setSearchResults(response)
     );
-  }
+  };
+
+  return(
+    <div className="App">
+      <h2 className="Header">Random Album</h2>
+      {
+        randomAlbumArt &&
+          <img
+            src={randomAlbumArt}
+            alt="Smiley face"
+            width="250vw"
+          />
+      }
+      <h2 className="Header">Search an Artist</h2>
+      <input
+        className="Input"
+        type="text"
+        onChange={onArtistSearch}
+        placeholder="Enter an Artist"
+        value={searchValue}
+      />
+      {renderSearchResults(searchResults)}
+    </div>
+  );
 }
 
 const rootElement = document.getElementById("root");

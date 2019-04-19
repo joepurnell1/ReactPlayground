@@ -1,5 +1,5 @@
 // See readme for bearer token
-const bearerToken = "<<BEARER_TOKEN>>";
+const bearerToken = "BQDNVqbkL0rvbkHQEpSLzv4FaVMiraPnu41Cj191r3HnBA-3dSqXFRQKy6cH0cdIMrkfRu1MSoE0TrsoIAtMov2ccnLogPgQ2lTfl-KVPhqW2gvve6qkaSwCkxD2HCLvoLMlfV_llpFo-eQaFwgfZDge";
 
 function getUrl(artist) {
   let formattedArtist = artist.toLowerCase().replace(/ /g, "%20");
@@ -31,4 +31,27 @@ async function searchArtist(artist) {
     });
 }
 
-export default searchArtist;
+async function getRandomAlbum() {
+  return fetch(
+    `https://api.spotify.com/v1/me/albums?limit=50`,
+  {
+    method: "GET",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${bearerToken}`
+    }
+  })
+    .then(response => {
+      if (response.status !== 200) {
+        throw response.statusText;
+      }
+      return response.json();
+    })
+    .then(data => data.items[Math.floor(Math.random() * 50)].album.images[1].url)
+    .catch(errorMessage => {
+      return [`Error getting artists message is '${errorMessage}'`];
+    });
+}
+
+export {searchArtist, getRandomAlbum};
