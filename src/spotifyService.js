@@ -1,5 +1,5 @@
 // See readme for bearer token
-const bearerToken = "BQDNVqbkL0rvbkHQEpSLzv4FaVMiraPnu41Cj191r3HnBA-3dSqXFRQKy6cH0cdIMrkfRu1MSoE0TrsoIAtMov2ccnLogPgQ2lTfl-KVPhqW2gvve6qkaSwCkxD2HCLvoLMlfV_llpFo-eQaFwgfZDge";
+const bearerToken = "<<BEARER_TOKEN>>";
 
 function getUrl(artist) {
   let formattedArtist = artist.toLowerCase().replace(/ /g, "%20");

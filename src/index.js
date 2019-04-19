@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from "react";
-import { searchArtist, getRandomAlbum } from "./spotifyService";
+import React, { useState } from "react";
+import { searchArtist } from "./spotifyService";
 import ReactDOM from "react-dom";
 import Artist from "./artist";
+import useRandomAlbum from './useRandomAlbum';
 
 import "./styles.css";
 
@@ -36,15 +37,8 @@ const renderSearchResults = (searchResults) => {
 function App() {
   const [searchValue, setSearchValue] = useState('');
   const [searchResults, setSearchResults] = useState([]);
-  const [randomAlbumArt, setRandomAlbumArt] = useState(undefined);
 
-  useEffect(() => {
-    const fetchRandomAlbum = async () => {
-      const randAlbum = await getRandomAlbum();
-      setRandomAlbumArt(randAlbum);
-    };
-    fetchRandomAlbum();
-  }, []);
+  const randomAlbumArt = useRandomAlbum();
 
   const onArtistSearch = event => {
     event.persist();
